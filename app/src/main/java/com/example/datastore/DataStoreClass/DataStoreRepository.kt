@@ -1,4 +1,4 @@
-package com.example.datastore
+package com.example.datastore.DataStoreClass
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 
-class DataStoreRepository(private val context: Context) {
+class DataStoreRepository( private val context: Context) {
 
     private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("pref")
 
@@ -22,6 +22,7 @@ class DataStoreRepository(private val context: Context) {
         context.dataStore.edit {
             it[USERNAME]    = name
             it[AGE]         = age
+
         }
     }
 
@@ -30,7 +31,7 @@ class DataStoreRepository(private val context: Context) {
     }
 
     fun getUserAge() = context.dataStore.data.map {
-        it[AGE] ?: -1
+        it[AGE] ?: 0
     }
 
 }
