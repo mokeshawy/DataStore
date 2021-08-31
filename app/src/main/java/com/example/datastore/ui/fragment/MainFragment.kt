@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.coroutineScope
 import com.example.datastore.DataStoreClass.DataStoreRepository
 import com.example.datastore.R
@@ -59,11 +60,18 @@ class MainFragment : Fragment() {
 
         // btn save data after entry in input to DataStore Preference.
         binding.btnSave.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                dataStoreRepository.storeUser(
-                    binding.etEnterName.text.toString().trim(),
-                    binding.etEnterAge.text.toString().trim().toInt()
-                )
+
+            if(binding.etEnterName.text.toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(),"Please enter your name",Toast.LENGTH_SHORT).show()
+            }else if(binding.etEnterAge.text.toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(),"Please enter your age",Toast.LENGTH_SHORT).show()
+            }else{
+                CoroutineScope(Dispatchers.IO).launch {
+                    dataStoreRepository.storeUser(
+                        binding.etEnterName.text.toString().trim(),
+                        binding.etEnterAge.text.toString().trim().toInt()
+                    )
+                }
             }
         }
     }
